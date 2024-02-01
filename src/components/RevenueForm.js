@@ -1,4 +1,5 @@
 import {useForm} from "react-hook-form";
+import {nanoid} from "nanoid";
 
 function RevenueForm(props){
 
@@ -6,6 +7,7 @@ function RevenueForm(props){
 
     async function onSubmit(data) {
         try {
+            data['id'] = nanoid();
             const response = await fetch('http://localhost:3001/add-revenues', {
                 method: 'POST',
                 headers: {
@@ -18,7 +20,7 @@ function RevenueForm(props){
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData)
-                props.addItem(data); // Assuming the server returns the added revenue data
+                props.addItem(responseData.revenue, responseData.revenue['id']); // Assuming the server returns the added revenue data
                 reset();
             } else {
                 console.error('Failed to add revenue');

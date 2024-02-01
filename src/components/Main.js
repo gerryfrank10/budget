@@ -1,8 +1,7 @@
 import Footer from "./Footer";
 import RevenueForm from "./RevenueForm";
 import List from "./List";
-import {nanoid} from "nanoid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ExpenseForm from "./ExpenseForm";
 
 function Main(props) {
@@ -14,20 +13,86 @@ function Main(props) {
     const [expenses, setExpense] = useState([]);
     const [mode, setMode] = useState("revenue");
 
-    function addRevenue(data) {
+    useEffect(() => {
+        // Fetch revenue data from API
+        async function fetchRevenues() {
+            try {
+                const response = await fetch("http://localhost:3001/revenues", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `${localStorage.getItem("token")}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log(responseData.revenues);
+                    setRevenue(responseData.revenues);
+
+                } else {
+                    console.error("Failed to fetch revenue list");
+                }
+            } catch (error) {
+                console.error("Error fetching revenue list", error);
+            }
+        }
+
+        // Fetch expense data from API
+        async function fetchExpenses() {
+            try {
+                const response = await fetch("http://localhost:3001/expenses", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `${localStorage.getItem("token")}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log(response.expenses);
+                    setExpense(responseData.expenses);
+                } else {
+                    console.error("Failed to fetch expense list");
+                }
+            } catch (error) {
+                console.error("Error fetching expense list", error);
+            }
+        }
+
+        fetchRevenues();
+        fetchExpenses();
+    }, []);
+
+    function addRevenue(data, id) {
         const newItem = {
-            id: `item-${nanoid()}`, name: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
+            id: id, name: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setRevenue([...revenues, newItem]);
     }
 
-    function removeRevenue(name) {
-        setRevenue((prevItems) => revenues.filter((item) => item.name !== name))
+    async function removeRevenue(id) {
+        try {
+            const response = await fetch(`http://localhost:3001/delete-revenue/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `${localStorage.getItem('token')}`
+                }
+            })
+            if(response.ok) {
+                const responseData = await response.json();
+                console.log(responseData.message);
+                setRevenue((prevItems) => revenues.filter((item) => item.id !== id))
+            }
+        } catch (error) {
+            console.log("Error deleting revenue", error)
+        }
+
     }
 
-    function addExpense(data){
+    function addExpense(data, id){
+        console.log(id)
         const newItem = {
-            id: `item-${nanoid()}`, name: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
+            id: id, name: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setExpense([...expenses, newItem]);
     }
@@ -46,7 +111,7 @@ function Main(props) {
                 setExpense((prevItem) => expenses.filter((item) => item.id !== id))
             }
         } catch (error) {
-            console.log("Error deleting revenue", error)
+            console.log("Error deleting expense", error)
         }
     }
 
@@ -54,8 +119,8 @@ function Main(props) {
         alert("Edit "+ name)
     }
 
-    const revenueList = revenues?.map((item) => (<List key={item.id} name={item.name} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
-    const expenseList = expenses?.map((item) => (<List key={item.id} name={item.name} itemId={item.id} deleteItem={removeExpense}/>));
+    const revenueList = revenues?.map((item) => (<List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
+    const expenseList = expenses?.map((item) => (<List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
 
     const toggleMode = (selectedMode) => {
         setMode(selectedMode)
