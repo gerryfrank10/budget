@@ -15,13 +15,13 @@ function App() {
                     <Header/>
                     <Routes>
                         <Fragment>
+                            <Route path="/" element={<Main />} />
                             <Route path="/" element={<PrivateRoute />}>
-                                <Route path="/" element={<Main />} />
                                 <Route path="/expense" element={<Expense />}/>
                                 <Route path="/revenue" element={<Revenue />}/>
+                                <Route path="*" element={<Main />}/>
                             </Route>
                             <Route path="/login" element={<Login />}/>
-                            <Route path="*" element={<Main />}/>
                         </Fragment>
                     </Routes>
                 </div>
