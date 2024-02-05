@@ -6,6 +6,8 @@ import Expense from "./components/Expense";
 import Login from "./components/Login";
 import {Fragment} from "react";
 import PrivateRoute from "./utils/PrivateRoute";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'primeicons/primeicons.css';
 
 
 function App() {

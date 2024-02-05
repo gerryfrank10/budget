@@ -8,6 +8,7 @@ function RevenueForm(props){
     async function onSubmit(data) {
         try {
             data['id'] = nanoid();
+            data['date'] = new Date().toLocaleString()
             const response = await fetch('http://localhost:3001/add-revenues', {
                 method: 'POST',
                 headers: {

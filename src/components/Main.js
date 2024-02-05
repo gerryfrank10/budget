@@ -11,6 +11,8 @@ function Main(props) {
     const [revenues, setRevenue] = useState([]);
     const [expenses, setExpense] = useState([]);
     const [mode, setMode] = useState("revenue");
+    const [totalExpense, setTotalExpense] = useState();
+    const [totalRevenue, setTotalRevenue] = useState();
 
     useEffect(() => {
         // Fetch revenue data from API
@@ -25,8 +27,8 @@ function Main(props) {
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    console.log(responseData.revenues);
                     setRevenue(responseData.revenues);
+                    setTotalRevenue(responseData.totalAmount);
                 } else {
                     console.error("Failed to fetch revenue list");
                 }
@@ -47,8 +49,8 @@ function Main(props) {
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    console.log(response.expenses);
                     setExpense(responseData.expenses);
+                    setTotalExpense(responseData.totalAmount)
                 } else {
                     console.error("Failed to fetch expense list");
                 }
@@ -120,6 +122,8 @@ function Main(props) {
     const revenueList = revenues?.map((item) => (<List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
     const expenseList = expenses?.map((item) => (<List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
 
+    console.log(expenseList);
+
     const toggleMode = (selectedMode) => {
         setMode(selectedMode)
     }
@@ -138,7 +142,7 @@ function Main(props) {
                 <div className="container position-relative">
                     <div className="row d-flex justify-content-center">
                         <div className="col" style={{textAlign: "left"}}>
-                            <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>Total Revenue</h3>
+                            <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>Total Revenue : {totalRevenue}</h3>
                             <ul className="list-group">
                                 {revenueList}
                             </ul>
@@ -176,7 +180,7 @@ function Main(props) {
                             </div>
                         </div>
                         <div className="col" style={{textAlign: "right"}}>
-                            <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>Total Expenses</h5>
+                            <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>Total Expenses : {totalExpense}</h5>
                             <ul className="list-group list-group-flush">
                                 {expenseList}
                             </ul>
