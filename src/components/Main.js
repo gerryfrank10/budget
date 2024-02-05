@@ -8,7 +8,6 @@ function Main(props) {
     const myStyle = {
         fontFamily: "Aclonica, sans-serif",
     };
-
     const [revenues, setRevenue] = useState([]);
     const [expenses, setExpense] = useState([]);
     const [mode, setMode] = useState("revenue");
@@ -28,7 +27,6 @@ function Main(props) {
                     const responseData = await response.json();
                     console.log(responseData.revenues);
                     setRevenue(responseData.revenues);
-
                 } else {
                     console.error("Failed to fetch revenue list");
                 }
@@ -125,7 +123,6 @@ function Main(props) {
     const toggleMode = (selectedMode) => {
         setMode(selectedMode)
     }
-
 
     const renderForm = () => {
         if (mode === "revenue") {
