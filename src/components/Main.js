@@ -13,15 +13,19 @@ function Main(props) {
     const [mode, setMode] = useState("revenue");
     const [totalExpense, setTotalExpense] = useState();
     const [totalRevenue, setTotalRevenue] = useState();
+    const base_url = process.env.REACT_APP_API_HOST;
+    console.log(`Base Host ${base_url}`);
 
     useEffect(() => {
         // Fetch revenue data from API
         async function fetchRevenues() {
             try {
-                const response = await fetch("http://localhost:3001/revenues", {
+                const response = await fetch(`${base_url}/revenues`, {
                     method: "GET",
                     headers: {
                         Authorization: `${localStorage.getItem("token")}`,
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json'
                     },
                 });
 
@@ -40,7 +44,7 @@ function Main(props) {
         // Fetch expense data from API
         async function fetchExpenses() {
             try {
-                const response = await fetch("http://localhost:3001/expenses", {
+                const response = await fetch(`${base_url}/expenses`, {
                     method: "GET",
                     headers: {
                         Authorization: `${localStorage.getItem("token")}`,
@@ -72,7 +76,7 @@ function Main(props) {
 
     async function removeRevenue(id) {
         try {
-            const response = await fetch(`http://localhost:3001/delete-revenue/${id}`, {
+            const response = await fetch(`${base_url}/delete-revenue/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `${localStorage.getItem('token')}`
@@ -80,6 +84,7 @@ function Main(props) {
             })
             if(response.ok) {
                 const responseData = await response.json();
+                setTotalRevenue(responseData.totalAmount);
                 console.log(responseData.message);
                 setRevenue((prevItems) => revenues.filter((item) => item.id !== id))
             }
@@ -99,7 +104,7 @@ function Main(props) {
 
     async function removeExpense(id) {
         try {
-            const response = await fetch(`http://localhost:3001/delete-expense/${id}`, {
+            const response = await fetch(`${base_url}/delete-expense/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `${localStorage.getItem('token')}`,
@@ -107,6 +112,7 @@ function Main(props) {
             })
             if (response.ok) {
                 const responseData = await response.json();
+                setTotalExpense(responseData.totalAmount)
                 console.log(responseData.message);
                 setExpense((prevItem) => expenses.filter((item) => item.id !== id))
             }

@@ -12,6 +12,7 @@ function Revenue() {
     const [filters, setFilters] = useState({
         global: {value: null, matchMode: FilterMatchMode.CONTAINS}
     })
+    const base_url = process.env.REACT_APP_API_HOST;
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -65,7 +66,7 @@ function Revenue() {
     useEffect(() => {
         async function fetchRevenues() {
             try {
-                const response = await fetch("http://localhost:3001/revenues", {
+                const response = await fetch(`${base_url}/revenues`, {
                     method: "GET",
                     headers: {
                         Authorization: `${localStorage.getItem("token")}`,

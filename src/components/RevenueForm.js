@@ -5,11 +5,12 @@ function RevenueForm(props){
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
 
+    const base_url = process.env.REACT_APP_API_HOST;
     async function onSubmit(data) {
         try {
             data['id'] = nanoid();
             data['date'] = new Date().toLocaleString()
-            const response = await fetch('http://localhost:3001/add-revenues', {
+            const response = await fetch(`${base_url}/add-revenues`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,13 +2,16 @@
   "name": "budget",
   "version": "0.1.0",
   "private": true,
+  "crypto": false,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "dotenv": "^16.4.1",
     "file-saver": "^2.0.5",
     "nanoid": "^5.0.4",
+    "os-browserify": "^0.3.0",
     "primeicons": "^6.0.1",
     "primereact": "^10.4.0",
     "react": "^18.2.0",
@@ -42,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "path-browserify": "^1.0.1"
   }
 }

@@ -62,11 +62,12 @@ function Expense() {
         );
     };
     const header = renderHeader();
+    const base_url = process.env.REACT_APP_API_HOST;
 
     useEffect(() => {
         async function fetchExpenses() {
             try {
-                const response = await fetch("http://localhost:3001/expenses", {
+                const response = await fetch(`${base_url}/expenses`, {
                     method: "GET",
                     headers: {
                         Authorization: `${localStorage.getItem("token")}`,
