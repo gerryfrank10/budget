@@ -4,7 +4,7 @@ import List from "./List";
 import {useEffect, useState} from "react";
 import ExpenseForm from "./ExpenseForm";
 
-function Main(props) {
+function Main() {
     const myStyle = {
         fontFamily: "Aclonica, sans-serif",
     };
@@ -65,7 +65,7 @@ function Main(props) {
 
         fetchRevenues();
         fetchExpenses();
-    }, []);
+    }, [base_url]);
 
     function addRevenue(data, id) {
         const newItem = {
@@ -82,11 +82,11 @@ function Main(props) {
                     Authorization: `${localStorage.getItem('token')}`
                 }
             })
-            if(response.ok) {
+            if (response.ok) {
                 const responseData = await response.json();
                 setTotalRevenue(responseData.totalAmount);
                 console.log(responseData.message);
-                setRevenue((prevItems) => revenues.filter((item) => item.id !== id))
+                setRevenue(() => revenues.filter((item) => item.id !== id))
             }
         } catch (error) {
             console.log("Error deleting revenue", error)
@@ -94,7 +94,7 @@ function Main(props) {
 
     }
 
-    function addExpense(data, id){
+    function addExpense(data, id) {
         console.log(id)
         const newItem = {
             id: id, name: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
@@ -114,7 +114,7 @@ function Main(props) {
                 const responseData = await response.json();
                 setTotalExpense(responseData.totalAmount)
                 console.log(responseData.message);
-                setExpense((prevItem) => expenses.filter((item) => item.id !== id))
+                setExpense(() => expenses.filter((item) => item.id !== id))
             }
         } catch (error) {
             console.log("Error deleting expense", error)
@@ -122,11 +122,13 @@ function Main(props) {
     }
 
     function editItem(name) {
-        alert("Edit "+ name)
+        alert("Edit " + name)
     }
 
-    const revenueList = revenues?.map((item) => (<List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
-    const expenseList = expenses?.map((item) => (<List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
+    const revenueList = revenues?.map((item) => (
+        <List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
+    const expenseList = expenses?.map((item) => (
+        <List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
 
     console.log(expenseList);
 
@@ -144,20 +146,21 @@ function Main(props) {
     }
 
     return (<div>
-            <section>
-                <div className="container position-relative">
-                    <div className="row d-flex justify-content-center">
-                        <div className="col" style={{textAlign: "left"}}>
-                            <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>Total Revenue : {totalRevenue}</h3>
-                            <ul className="list-group">
-                                {revenueList}
-                            </ul>
-                        </div>
-                        <div className="col-md-8 col-lg-6 col-xl-5 col-xxl-4" style={{width: "375.987px"}}>
-                            <div className="card mb-5">
-                                <div className="card-body p-sm-5" style={{height: "462.125px"}}>
-                                    <div className="text-center mb-4">
-                                        <h2 style={myStyle}>
+        <section>
+            <div className="container position-relative">
+                <div className="row d-flex justify-content-center">
+                    <div className="col" style={{textAlign: "left"}}>
+                        <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>Total Revenue
+                            : {totalRevenue}</h3>
+                        <ul className="list-group">
+                            {revenueList}
+                        </ul>
+                    </div>
+                    <div className="col-md-8 col-lg-6 col-xl-5 col-xxl-4" style={{width: "375.987px"}}>
+                        <div className="card mb-5">
+                            <div className="card-body p-sm-5" style={{height: "462.125px"}}>
+                                <div className="text-center mb-4">
+                                    <h2 style={myStyle}>
                       <span
                           onClick={() => toggleMode("revenue")}
                           style={{
@@ -168,34 +171,35 @@ function Main(props) {
                       >
                         Revenue
                       </span>{" "}
-                                            /{" "}
-                                            <span
-                                                onClick={() => toggleMode("expenses")}
-                                                style={{
-                                                    cursor: "pointer",
-                                                    color: mode === "expenses" ? "#007BFF" : "grey",
-                                                    filter: mode === "expenses" ? "none" : "blur(1px)"
-                                                }}
-                                            >
+                                        /{" "}
+                                        <span
+                                            onClick={() => toggleMode("expenses")}
+                                            style={{
+                                                cursor: "pointer",
+                                                color: mode === "expenses" ? "#007BFF" : "grey",
+                                                filter: mode === "expenses" ? "none" : "blur(1px)"
+                                            }}
+                                        >
                         Expenses
                       </span>
-                                        </h2>
-                                    </div>
-                                    {renderForm()}
+                                    </h2>
                                 </div>
+                                {renderForm()}
                             </div>
                         </div>
-                        <div className="col" style={{textAlign: "right"}}>
-                            <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>Total Expenses : {totalExpense}</h5>
-                            <ul className="list-group list-group-flush">
-                                {expenseList}
-                            </ul>
-                        </div>
                     </div>
-                    <Footer/>
+                    <div className="col" style={{textAlign: "right"}}>
+                        <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>Total Expenses
+                            : {totalExpense}</h5>
+                        <ul className="list-group list-group-flush">
+                            {expenseList}
+                        </ul>
+                    </div>
                 </div>
-            </section>
-        </div>)
+                <Footer />
+            </div>
+        </section>
+    </div>)
 }
 
 export default Main;
