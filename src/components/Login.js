@@ -35,7 +35,7 @@ function Login(){
             <div className="row justify-content-center">
                 <div className="col-md-5">
                     <div className="card shadow-lg p-4">
-                        <h3 className="text-center mb-4">Login</h3>
+                        <h3 className="text-center mb-4">Login / Register</h3>
                             <div className="form-group">
                                 <label htmlFor="username">Username</label>
                                 <input type="text"

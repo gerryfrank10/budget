@@ -86,7 +86,7 @@ function Expense() {
             }
         }
         fetchExpenses();
-    }, []);
+    }, [base_url]);
 
     return (
         <div className="container mt-5">
@@ -99,10 +99,10 @@ function Expense() {
                 filters={filters}
                 header={header}
             >
-                <Column field='expenseName' header='Expense Name'></Column>
-                <Column field="ExpenseChoice" header="Choice "></Column>
-                <Column field="Amount" header="Amount"></Column>
-                <Column field="date" header="Date"></Column>
+                <Column field='expenseName' sortable header='Expense Name'></Column>
+                <Column field="ExpenseChoice" sortable header="Choice "></Column>
+                <Column field="Amount" sortable header="Amount"></Column>
+                <Column field="date" sortable header="Date"></Column>
             </DataTable>
         </div>
     )

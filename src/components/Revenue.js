@@ -3,7 +3,7 @@ import { Column } from 'primereact/column';
 import {useEffect, useState} from "react";
 import { FilterMatchMode } from 'primereact/api';
 import {InputText} from "primereact/inputtext";
-import {Tooltip} from "primereact/tooltip";
+// import {Tooltip} from "primereact/tooltip";
 import {Button} from "primereact/button";
 function Revenue() {
 
@@ -91,7 +91,7 @@ function Revenue() {
     return (
 
         <div className="container mt-5 ">
-            <Tooltip target=".export-buttons>button" position="bottom" />
+
                 <DataTable
                     value={revenues}
                     paginator
@@ -100,10 +100,9 @@ function Revenue() {
                     stripedRows tableStyle={{ minWidth: '50rem'}}
                     filters={filters}
                     header={header}
-                    // loading={loading}
                 >
                     <Column field="revenueName" sortable header="Revenue Name"></Column>
-                    <Column field='Account' filter filterPlaceholder="Search By Account" sortable header='Account'></Column>
+                    <Column field='Account' filterPlaceholder="Search By Account" sortable header='Account'></Column>
                     <Column field="amount" sortable header="Amount"></Column>
                     <Column field="date" sortable header="Date"></Column>
                 </DataTable>
