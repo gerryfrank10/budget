@@ -14,7 +14,7 @@ function RevenueForm(props){
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `${localStorage.getItem('token')}`, // Include the token in the headers
+                    'Authorization': `${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify(data),
             });
@@ -22,7 +22,7 @@ function RevenueForm(props){
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData)
-                props.addItem(responseData.revenue, responseData.revenue['id']); // Assuming the server returns the added revenue data
+                props.addItem(responseData.revenue, responseData.revenue['id']);
                 reset();
             } else {
                 console.error('Failed to add revenue');

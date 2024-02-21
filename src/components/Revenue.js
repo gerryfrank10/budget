@@ -3,7 +3,6 @@ import { Column } from 'primereact/column';
 import {useEffect, useState} from "react";
 import { FilterMatchMode } from 'primereact/api';
 import {InputText} from "primereact/inputtext";
-// import {Tooltip} from "primereact/tooltip";
 import {Button} from "primereact/button";
 function Revenue() {
 

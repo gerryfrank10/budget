@@ -14,7 +14,6 @@ function Main() {
     const [totalExpense, setTotalExpense] = useState();
     const [totalRevenue, setTotalRevenue] = useState();
     const base_url = process.env.REACT_APP_API_HOST;
-    console.log(`Base Host ${base_url}`);
 
     useEffect(() => {
         // Fetch revenue data from API
@@ -69,7 +68,7 @@ function Main() {
 
     function addRevenue(data, id) {
         const newItem = {
-            id: id, name: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
+            id: id, revenueName: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setRevenue([...revenues, newItem]);
     }
@@ -97,7 +96,7 @@ function Main() {
     function addExpense(data, id) {
         console.log(id)
         const newItem = {
-            id: id, name: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
+            id: id, expenseName: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setExpense([...expenses, newItem]);
     }
@@ -125,13 +124,6 @@ function Main() {
         alert("Edit " + name)
     }
 
-    const revenueList = revenues?.map((item) => (
-        <List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
-    const expenseList = expenses?.map((item) => (
-        <List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
-
-    console.log(expenseList);
-
     const toggleMode = (selectedMode) => {
         setMode(selectedMode)
     }
@@ -144,6 +136,12 @@ function Main() {
         }
         return null;
     }
+    console.log(revenues)
+    console.log(expenses)
+    const revenueList = revenues?.map((item) => (
+        <List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
+    const expenseList = expenses?.map((item) => (
+        <List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
 
     return (<div>
         <section>
