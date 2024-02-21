@@ -66,12 +66,12 @@ function Main() {
         fetchExpenses();
     }, [base_url]);
 
-    function addRevenue(data, id) {
+    function addRevenue(data, id, totalAmount) {
         const newItem = {
             id: id, revenueName: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setRevenue([...revenues, newItem]);
-        console.log(totalRevenue);
+        setTotalRevenue(totalAmount)
     }
 
     async function removeRevenue(id) {
@@ -94,12 +94,12 @@ function Main() {
 
     }
 
-    function addExpense(data, id) {
-        console.log(id)
+    function addExpense(data, id, totalAmount) {
         const newItem = {
             id: id, expenseName: data.ExpenseName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setExpense([...expenses, newItem]);
+        setTotalExpense(totalAmount);
     }
 
     async function removeExpense(id) {
@@ -141,6 +141,7 @@ function Main() {
         <List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
     const expenseList = expenses?.map((item) => (
         <List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
+
 
     return (
         <div>

@@ -22,7 +22,7 @@ function RevenueForm(props){
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData)
-                props.addItem(responseData.revenue, responseData.revenue['id']);
+                props.addItem(responseData.revenue, responseData.revenue['id'], responseData.totalAmount);
                 reset();
             } else {
                 console.error('Failed to add revenue');

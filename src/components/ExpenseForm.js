@@ -21,7 +21,7 @@ function ExpenseForm(props) {
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData.message);
-                props.addItem(responseData.expense, responseData.expense['id']); // Assuming the server returns the added revenue data
+                props.addItem(responseData.expense, responseData.expense['id'], responseData.totalAmount); // Assuming the server returns the added revenue data
                 reset();
             } else {
                 console.error('Failed to add expense');
