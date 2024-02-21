@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
     const base_url = process.env.REACT_APP_API_HOST;
@@ -22,18 +23,28 @@ function Register() {
             if(response.ok) {
                 const data = await response.json();
                 console.log('Successfully Registering');
-                localStorage.setItem('token', data.token);
-                navigate('/');
+                setError(data.message);
+                navigate('/login');
             } else {
-                console.error('Registration failed');
+                const errorMessage = await response.json();
+                console.log(errorMessage);
+                setError(errorMessage.error);
+                setTimeout(() => {
+                    setError(null)
+                }, 2000);
             }
         } catch (error) {
             console.log("Error during Registration", error);
+            setError('An unexpected error occurred. Please try again.');
+            setTimeout(() => {
+                setError(null);
+            },2000);
         }
     }
 
     return (
         <div className="card shadow-lg p-4">
+            {error && <div className="alert alert-danger" role="alert">{error}</div>}
             <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input type="text"

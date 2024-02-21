@@ -71,6 +71,7 @@ function Main() {
             id: id, revenueName: data.BillName, account: data.Account, amount: data.Amount, note: data.Note
         };
         setRevenue([...revenues, newItem]);
+        console.log(totalRevenue);
     }
 
     async function removeRevenue(id) {
@@ -112,7 +113,6 @@ function Main() {
             if (response.ok) {
                 const responseData = await response.json();
                 setTotalExpense(responseData.totalAmount)
-                console.log(responseData.message);
                 setExpense(() => expenses.filter((item) => item.id !== id))
             }
         } catch (error) {
@@ -136,68 +136,73 @@ function Main() {
         }
         return null;
     }
-    console.log(revenues)
-    console.log(expenses)
+
     const revenueList = revenues?.map((item) => (
         <List key={item.id} name={item.revenueName} itemId={item.id} deleteItem={removeRevenue} editItem={editItem}/>));
     const expenseList = expenses?.map((item) => (
         <List key={item.id} name={item.expenseName} itemId={item.id} deleteItem={removeExpense}/>));
 
-    return (<div>
-        <section>
-            <div className="container position-relative">
-                <div className="row d-flex justify-content-center">
-                    <div className="col" style={{textAlign: "left"}}>
-                        <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>Total Revenue
-                            : {totalRevenue}</h3>
-                        <ul className="list-group">
-                            {revenueList}
-                        </ul>
-                    </div>
-                    <div className="col-md-8 col-lg-6 col-xl-5 col-xxl-4" style={{width: "375.987px"}}>
-                        <div className="card mb-5">
-                            <div className="card-body p-sm-5" style={{height: "462.125px"}}>
-                                <div className="text-center mb-4">
-                                    <h2 style={myStyle}>
-                      <span
-                          onClick={() => toggleMode("revenue")}
-                          style={{
-                              cursor: "pointer",
-                              color: mode === "revenue" ? "#007BFF" : "grey",
-                              filter: mode === "revenue" ? "none" : "blur(1px)"
-                          }}
-                      >
-                        Revenue
-                      </span>{" "}
-                                        /{" "}
-                                        <span
-                                            onClick={() => toggleMode("expenses")}
-                                            style={{
-                                                cursor: "pointer",
-                                                color: mode === "expenses" ? "#007BFF" : "grey",
-                                                filter: mode === "expenses" ? "none" : "blur(1px)"
-                                            }}
-                                        >
-                        Expenses
-                      </span>
-                                    </h2>
+    return (
+        <div>
+            <section>
+                <div className="container position-relative">
+                    <div className="row d-flex justify-content-center flex-lg-row flex-column-reverse">
+                        {/* Revenue List */}
+                        <div className="col-lg-4 order-lg-1" style={{textAlign: "left"}}>
+                            <h3 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17.408px"}}>
+                                Total Revenue: {totalRevenue}
+                            </h3>
+                            <ul className="list-group">{revenueList}</ul>
+                        </div>
+
+                        {/* Expense List */}
+                        <div className="col-lg-4 order-lg-3" style={{textAlign: "left"}}>
+                            <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>
+                                Total Expenses: {totalExpense}
+                            </h5>
+                            <ul className="list-group list-group-flush">{expenseList}</ul>
+                        </div>
+
+                        {/* Form */}
+                        <div className="col-lg-4 order-lg-2">
+                            <div className="card mb-5">
+                                <div className="card-body p-sm-5" style={{height: "462.125px"}}>
+                                    <div className="text-center mb-4">
+                                        <h2 style={myStyle}>
+                  <span
+                      onClick={() => toggleMode("revenue")}
+                      style={{
+                          cursor: "pointer",
+                          color: mode === "revenue" ? "#007BFF" : "grey",
+                          filter: mode === "revenue" ? "none" : "blur(1px)",
+                      }}
+                  >
+                    Revenue
+                  </span>{" "}
+                                            /{" "}
+                                            <span
+                                                onClick={() => toggleMode("expenses")}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    color: mode === "expenses" ? "#007BFF" : "grey",
+                                                    filter: mode === "expenses" ? "none" : "blur(1px)",
+                                                }}
+                                            >
+                    Expenses
+                  </span>
+                                        </h2>
+                                    </div>
+                                    {renderForm()}
                                 </div>
-                                {renderForm()}
                             </div>
                         </div>
                     </div>
-                    <div className="col" style={{textAlign: "right"}}>
-                        <h5 style={{fontFamily: "Aclonica, sans-serif", fontSize: "17px"}}>Total Expenses
-                            : {totalExpense}</h5>
-                        <ul className="list-group list-group-flush">
-                            {expenseList}
-                        </ul>
-                    </div>
+                    <Footer/>
                 </div>
-                <Footer />
-            </div>
-        </section>
-    </div>)
+            </section>
+        </div>
+
+    )
 }
 
 export default Main;
